@@ -1,4 +1,4 @@
-gows
+GOWSS
 ====
 
 GO language WebSocket Web Application Framework
