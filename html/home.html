@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<!--
+index.html : GOWS main html demo page
+Copyright (C) 2013 Shaun Savage <savages@savages.com>
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+<title>Chat Example</title>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="/gofw/mWeb.js"></script>
+<script type="text/javascript">
+	var myExec = this;
+	var wsconn = null;
+    
+    function startapp ( ws, data ) {
+		wsconn = ws
+	}
+
+    function loadpg() {
+		wsconn = maNAME.prototype = new maWeb("/gofw/ws", startapp);
+		window.history.replaceState("testing now","HZC","/gofw");
+	}
+	function maNAME( data, cb) {
+		myExec.wsconn.send(data,cb);
+//		this.send( data, cb );
+	}
+
+</script>
+<script type="text/javascript">
+    $(function() {
+ 	var savcmd;
+
+    var conn;
+    var msg = $("#msg");
+    var log = $("#log");
+    var cmd = $("#cmd");
+    
+    function appendLog(msg) {
+        var d = log[0]
+        var doScroll = d.scrollTop == d.scrollHeight - d.clientHeight;
+        msg.appendTo(log)
+        if (doScroll) {
+            d.scrollTop = d.scrollHeight - d.clientHeight;
+        }
+    }
+ 
+ 	function retData( evt, ret) {
+		var jcmd = ret['cmd'];
+		var ver = ret['ver'];
+		var stat = ret['stat'];
+		var seq = ret["seq"];
+		if (stat != 0) {
+			//alert(ret["err"](;
+			return;
+		}
+		switch (jcmd) {
+			case savcmd:
+				appendLog($("<div/>").text(ret["msg"]))
+				break;
+			default:
+				appendLog($("<div><b>Connection closed.</b></div>"))
+		}
+	}
+
+    $("#form").submit(function() {
+//        if (!conn) {
+//            return false;
+//        }
+        if (!msg.val() && cmd.val() != "store") {
+            return false;
+		}
+		savcmd = cmd.val();
+		var jcmd = myExec.wsconn.mkCmd(savcmd);
+		if (savcmd == "store") {
+			jcmd["msg"] = "STORE "+localStorage.getItem("gofw_loc")+", "+sessionStorage.getItem("gofw_ses");
+		} else {
+			jcmd["msg"] = msg.val();
+		}
+		var subm = {};
+        subm["tst"] = 1;
+		jcmd["sub"] = subm;
+		try {
+			var conn = parent.maNAME( JSON.stringify ( jcmd ), retData);
+		}
+		catch (err) {
+			alert(err);
+		}
+
+        return false
+	});
+});
+
+</script>
+<style type="text/css">
+html {
+    overflow: hidden;
+}
+ 
+body {
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: gray;
+}
+ 
+#log {
+    background: white;
+    margin: 0;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: 0.5em;
+    bottom: 3em;
+    overflow: auto;
+}
+ 
+#form {
+    padding: 0 0.5em 0 0.5em;
+    margin: 0;
+    position: absolute;
+    bottom: 1em;
+    left: 0px;
+    width: 100%;
+    overflow: hidden;
+}
+ 
+</style>
+</head>
+<body  onload="loadpg();">
+<div id="log"></div>
+<form id="form">
+    <input type="submit" value="Send" />
+    <input type="text" id="cmd" size="10" value="echo"/>
+    <input type="text" id="msg" size="64" />
+</form>
+</body>
+</html>

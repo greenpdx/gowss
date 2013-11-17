@@ -1,0 +1,17 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2012 by original authors @ fontello.com</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="1000" >
+<font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="mail" unicode="&#x65;" d="M467 366l-449 210 0 109 893 0 0-109z m0-123l444 210 0-437-893 0 0 438z" horiz-adv-x="928" />
+<glyph glyph-name="key-2" unicode="&#x6b;" d="M0 350q0 113 80 193t193 80q96 0 169-58t97-147l461 0 0-117-64 0 0-219-115 0 0 219-55 0 0-150-117 0 0 150-105 0q-18-96-94-160t-176-64q-113 0-193 80t-80 193z m127 0q0-61 43-104t104-43 104 43 43 104-43 104-104 43-104-43-43-104z" horiz-adv-x="1000" />
+<glyph glyph-name="right" unicode="&#x69;" d="M0 170l0 359 414 0 0 211 586-391-586-391 0 211-414 0z" horiz-adv-x="1000" />
+<glyph glyph-name="eye" unicode="&#x6c;" d="M0 350q0 30 15 67t43 77 70 78 92 68 115 48 132 18 132-18 115-48 92-68 70-78 43-77 15-67q0-29-15-67t-43-77-70-78-92-68-115-48-132-18-132 18-115 48-92 68-70 78-43 77-15 67z m234 0q0-63 31-117t85-85 117-31 117 31 85 85 31 117-31 117-85 85-117 31-117-31-85-85-31-117z m136 0q0-41 29-69t69-29 69 29 29 69q0 41-29 70t-69 29-69-29-29-70z" horiz-adv-x="937.5" />
+<glyph glyph-name="user-1" unicode="&#x75;" d="M736 128q204-72 204-122l0-106-940 0 0 106q0 50 204 122 94 34 128 69t34 95q0 22-22 49t-32 73q-2 12-9 18t-14 8-14 17-9 43q0 16 5 26t9 12l4 4q-8 50-12 88-4 54 41 112t157 58 158-58 40-112l-12-88q18-8 18-42-2-28-9-43t-14-17-14-8-9-18q-8-48-31-74t-23-48q0-60 35-95t127-69z" horiz-adv-x="940" />
+<glyph glyph-name="key" unicode="&#x70;" d="M774 612q20-116-28-215t-150-117q-66-12-130-2l-118-194-70-12-104-166q-14-28-46-32l-76-14q-12-4-22 4t-12 22l-16 98q-8 30 12 56l258 386q-24 50-38 120-18 106 53 187t185 101q106 20 195-45t107-177z m-126-76q30 44 21 97t-51 83q-42 32-92 22t-80-54q-8-12-12-23t-1-20 5-16 13-17 18-15 22-16 23-17q6-4 22-16t23-16 19-12 19-8 17 1 18 8 16 19z" horiz-adv-x="780" />
+</font>
+</defs>
+</svg>

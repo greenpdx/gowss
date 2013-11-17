@@ -1,0 +1,519 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.1.9
+-- Dumped by pg_dump version 9.1.9
+-- Started on 2013-09-28 18:15:44 PDT
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 205 (class 1259 OID 16816)
+-- Dependencies: 2177 2178 6
+-- Name: gofwconf; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE gofwconf (
+    cfgidx integer NOT NULL,
+    name character varying NOT NULL,
+    rndkey numeric DEFAULT random() NOT NULL,
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    authkey bytea[],
+    cryptkey bytea[]
+);
+
+
+--
+-- TOC entry 204 (class 1259 OID 16814)
+-- Dependencies: 205 6
+-- Name: hzcconf_cfgidx_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE hzcconf_cfgidx_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2215 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: hzcconf_cfgidx_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE hzcconf_cfgidx_seq OWNED BY gofwconf.cfgidx;
+
+
+--
+-- TOC entry 203 (class 1259 OID 16763)
+-- Dependencies: 2172 2173 2174 2175 6
+-- Name: sess; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE sess (
+    sessidx bigint NOT NULL,
+    uid integer NOT NULL,
+    ip inet,
+    port integer,
+    sstart timestamp with time zone DEFAULT now() NOT NULL,
+    slast timestamp with time zone DEFAULT now() NOT NULL,
+    svalid boolean DEFAULT false NOT NULL,
+    intval integer DEFAULT 60 NOT NULL
+);
+
+
+--
+-- TOC entry 202 (class 1259 OID 16761)
+-- Dependencies: 6 203
+-- Name: sess_sessidx_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sess_sessidx_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2216 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: sess_sessidx_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sess_sessidx_seq OWNED BY sess.sessidx;
+
+
+--
+-- TOC entry 195 (class 1259 OID 16560)
+-- Dependencies: 2168 2169 6
+-- Name: usrpas; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE usrpas (
+    usridx integer NOT NULL,
+    passwd character varying DEFAULT '*'::character varying NOT NULL,
+    key character varying DEFAULT '*'::character varying NOT NULL,
+    salt text NOT NULL
+);
+
+
+--
+-- TOC entry 196 (class 1259 OID 16566)
+-- Dependencies: 195 6
+-- Name: usr_uid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE usr_uid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2217 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: usr_uid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE usr_uid_seq OWNED BY usrpas.usridx;
+
+
+--
+-- TOC entry 210 (class 1259 OID 17111)
+-- Dependencies: 2183 2184 6
+-- Name: usrinfo; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE usrinfo (
+    usridx integer NOT NULL,
+    login character varying NOT NULL,
+    email character varying NOT NULL,
+    pass text DEFAULT '*'::text NOT NULL,
+    name character varying,
+    priv bit varying(64) DEFAULT B'0'::"bit" NOT NULL
+);
+
+
+--
+-- TOC entry 209 (class 1259 OID 17109)
+-- Dependencies: 6 210
+-- Name: usrinfo_usridx_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE usrinfo_usridx_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2218 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: usrinfo_usridx_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE usrinfo_usridx_seq OWNED BY usrinfo.usridx;
+
+
+--
+-- TOC entry 197 (class 1259 OID 16568)
+-- Dependencies: 6
+-- Name: usrsave; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE usrsave (
+    usridx integer NOT NULL,
+    bkidx integer NOT NULL,
+    chap numeric[]
+);
+
+
+--
+-- TOC entry 207 (class 1259 OID 16935)
+-- Dependencies: 2179 2180 6
+-- Name: usrset; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE usrset (
+    uid integer NOT NULL,
+    name character varying NOT NULL,
+    vld boolean DEFAULT false NOT NULL,
+    chps integer[] DEFAULT '{}'::integer[] NOT NULL,
+    usidx integer NOT NULL
+);
+
+
+--
+-- TOC entry 2219 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: TABLE usrset; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE usrset IS 'This stores the user sets';
+
+
+--
+-- TOC entry 208 (class 1259 OID 17097)
+-- Dependencies: 6 207
+-- Name: usrset_usidx_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE usrset_usidx_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2220 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: usrset_usidx_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE usrset_usidx_seq OWNED BY usrset.usidx;
+
+
+--
+-- TOC entry 198 (class 1259 OID 16574)
+-- Dependencies: 6
+-- Name: usrsvhz; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE usrsvhz (
+    usridx integer NOT NULL,
+    ceidx integer NOT NULL,
+    bkidx integer NOT NULL
+);
+
+
+--
+-- TOC entry 199 (class 1259 OID 16577)
+-- Dependencies: 6
+-- Name: usrtbl; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE usrtbl (
+    usridx integer NOT NULL,
+    bkidx integer,
+    login character varying NOT NULL
+);
+
+
+--
+-- TOC entry 200 (class 1259 OID 16583)
+-- Dependencies: 199 6
+-- Name: usrtbl_usridx_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE usrtbl_usridx_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2221 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: usrtbl_usridx_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE usrtbl_usridx_seq OWNED BY usrtbl.usridx;
+
+
+--
+-- TOC entry 2176 (class 2604 OID 16819)
+-- Dependencies: 205 204 205
+-- Name: cfgidx; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY gofwconf ALTER COLUMN cfgidx SET DEFAULT nextval('hzcconf_cfgidx_seq'::regclass);
+
+
+--
+-- TOC entry 2171 (class 2604 OID 16766)
+-- Dependencies: 202 203 203
+-- Name: sessidx; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY sess ALTER COLUMN sessidx SET DEFAULT nextval('sess_sessidx_seq'::regclass);
+
+
+--
+-- TOC entry 2182 (class 2604 OID 17114)
+-- Dependencies: 209 210 210
+-- Name: usridx; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrinfo ALTER COLUMN usridx SET DEFAULT nextval('usrinfo_usridx_seq'::regclass);
+
+
+--
+-- TOC entry 2167 (class 2604 OID 16596)
+-- Dependencies: 196 195
+-- Name: usridx; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrpas ALTER COLUMN usridx SET DEFAULT nextval('usr_uid_seq'::regclass);
+
+
+--
+-- TOC entry 2181 (class 2604 OID 17099)
+-- Dependencies: 208 207
+-- Name: usidx; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrset ALTER COLUMN usidx SET DEFAULT nextval('usrset_usidx_seq'::regclass);
+
+
+--
+-- TOC entry 2170 (class 2604 OID 16597)
+-- Dependencies: 200 199
+-- Name: usridx; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrtbl ALTER COLUMN usridx SET DEFAULT nextval('usrtbl_usridx_seq'::regclass);
+
+
+--
+-- TOC entry 2195 (class 2606 OID 16825)
+-- Dependencies: 205 205 2212
+-- Name: hzcconf_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY gofwconf
+    ADD CONSTRAINT hzcconf_pkey PRIMARY KEY (cfgidx);
+
+
+--
+-- TOC entry 2192 (class 2606 OID 16774)
+-- Dependencies: 203 203 2212
+-- Name: sess_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY sess
+    ADD CONSTRAINT sess_pkey PRIMARY KEY (sessidx);
+
+
+--
+-- TOC entry 2186 (class 2606 OID 16635)
+-- Dependencies: 195 195 2212
+-- Name: usr_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrpas
+    ADD CONSTRAINT usr_pkey PRIMARY KEY (usridx);
+
+
+--
+-- TOC entry 2200 (class 2606 OID 17124)
+-- Dependencies: 210 210 2212
+-- Name: usrinfo_email_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrinfo
+    ADD CONSTRAINT usrinfo_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 2202 (class 2606 OID 17122)
+-- Dependencies: 210 210 2212
+-- Name: usrinfo_login_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrinfo
+    ADD CONSTRAINT usrinfo_login_key UNIQUE (login);
+
+
+--
+-- TOC entry 2204 (class 2606 OID 17120)
+-- Dependencies: 210 210 2212
+-- Name: usrinfo_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrinfo
+    ADD CONSTRAINT usrinfo_pkey PRIMARY KEY (usridx);
+
+
+--
+-- TOC entry 2197 (class 2606 OID 17107)
+-- Dependencies: 207 207 2212
+-- Name: usrset_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrset
+    ADD CONSTRAINT usrset_pkey PRIMARY KEY (usidx);
+
+
+--
+-- TOC entry 2190 (class 2606 OID 16637)
+-- Dependencies: 199 199 2212
+-- Name: usrtbl_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrtbl
+    ADD CONSTRAINT usrtbl_pkey PRIMARY KEY (usridx);
+
+
+--
+-- TOC entry 2193 (class 1259 OID 16775)
+-- Dependencies: 203 203 2212
+-- Name: sess_uid_valid_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX sess_uid_valid_idx ON sess USING btree (uid, svalid);
+
+
+--
+-- TOC entry 2187 (class 1259 OID 16644)
+-- Dependencies: 197 2212
+-- Name: usrsave_bkidx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX usrsave_bkidx ON usrsave USING btree (bkidx);
+
+
+--
+-- TOC entry 2188 (class 1259 OID 16645)
+-- Dependencies: 197 2212
+-- Name: usrsave_usridx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX usrsave_usridx ON usrsave USING btree (usridx);
+
+
+--
+-- TOC entry 2198 (class 1259 OID 17108)
+-- Dependencies: 207 207 207 2212
+-- Name: usrset_uid_name_vld_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX usrset_uid_name_vld_idx ON usrset USING btree (uid, name, vld);
+
+
+--
+-- TOC entry 2205 (class 2606 OID 16691)
+-- Dependencies: 197 164 2212
+-- Name: usrsave_bkidx_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrsave
+    ADD CONSTRAINT usrsave_bkidx_fkey FOREIGN KEY (bkidx) REFERENCES books(bkidx);
+
+
+--
+-- TOC entry 2206 (class 2606 OID 16696)
+-- Dependencies: 199 2189 197 2212
+-- Name: usrsave_usridx_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrsave
+    ADD CONSTRAINT usrsave_usridx_fkey FOREIGN KEY (usridx) REFERENCES usrtbl(usridx);
+
+
+--
+-- TOC entry 2207 (class 2606 OID 16701)
+-- Dependencies: 164 198 2212
+-- Name: usrsvhz_bkidx_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrsvhz
+    ADD CONSTRAINT usrsvhz_bkidx_fkey FOREIGN KEY (bkidx) REFERENCES books(bkidx);
+
+
+--
+-- TOC entry 2208 (class 2606 OID 16706)
+-- Dependencies: 162 198 2212
+-- Name: usrsvhz_ceidx_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrsvhz
+    ADD CONSTRAINT usrsvhz_ceidx_fkey FOREIGN KEY (ceidx) REFERENCES cedict(ceidx);
+
+
+--
+-- TOC entry 2209 (class 2606 OID 16711)
+-- Dependencies: 199 2189 198 2212
+-- Name: usrsvhz_usridx_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrsvhz
+    ADD CONSTRAINT usrsvhz_usridx_fkey FOREIGN KEY (usridx) REFERENCES usrtbl(usridx);
+
+
+--
+-- TOC entry 2210 (class 2606 OID 16716)
+-- Dependencies: 199 164 2212
+-- Name: usrtbl_bkidx_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY usrtbl
+    ADD CONSTRAINT usrtbl_bkidx_fkey FOREIGN KEY (bkidx) REFERENCES books(bkidx);
+
+
+-- Completed on 2013-09-28 18:15:44 PDT
+
+--
+-- PostgreSQL database dump complete
+--
+

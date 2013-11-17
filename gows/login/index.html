@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6 lt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7 lt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8 lt8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="UTF-8" />
+        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">  -->
+        <title>Login and Registration</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="description" content="Login and Registration For GOFW" />
+        <link rel="shortcut icon" href="../favicon.ico"> 
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
+		<script type="text/javascript">
+
+			function chkusr( ele ) {
+				var usr = ele.value;
+				var id = ele.id;
+				//alert(usr);
+			}
+			function chkpass( ele ) {
+				var pass = document.getElementById("pass1");
+				if (ele.value != pass.value) {
+					alert("Passwords do not match");
+				}
+			}
+			//getElementByClassName("")
+			function sendit(ele) {
+				var kids = ele.elements;
+				var frm = ele.id;
+				for (var i=0;i<kids.length;i++) {
+					var k = kids[i];
+					if (k.name == "lockey" && typeof(Storage)!="undefined") {
+						var lk = localStorage.gows_loc;
+						k.value = lk;
+					}
+					if (k.name == "seskey" && typeof(Storage)!="undefined") {
+						var sk = sessionStorage.gows_ses;
+						k.value = sk;
+					}
+				}
+				return true;
+			}
+		</script>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Login and Registration Form for <span>GOWS</span></h1>
+                <h3>GO WebSocket Server</h3>
+				<nav class="codrops-demos">
+					<span>Click <strong>"Join us"</strong> to register</span>
+				</nav>
+            </header>
+            <section>	
+                <div id="container_demo" >
+                    <!-- hidden anchor to stop jump http://www.css3create.com/Astuce-Empecher-le-scroll-avec-l-utilisation-de-target#wrap4  -->
+                    <a class="hiddenanchor" id="tozforgot"></a>
+                    <a class="hiddenanchor" id="toregister"></a>
+                    <a class="hiddenanchor" id="tologin"></a>
+                    <div id="wrapper">
+                        <div id="login" class="animate form">
+                            <form  id="l" action="login" autocomplete="on" onsubmit="return sendit(this);"> 
+                                <h1>Log in</h1> 
+                                <p> 
+                                    <label for="username" class="uname" data-icon="l" > Your email or login </label>
+                                    <input id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com" autofocus pattern="^([a-z][a-z0-9_\.\@]){1,32}$"/>
+                                </p>
+                                <p> 
+                                    <label for="password" class="youpasswd" data-icon="p"> Your password </label>
+                                    <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
+                                </p>
+                                <p class="keeplogin"> 
+									<input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" /> 
+									<label for="loginkeeping">Keep me logged in</label>
+								</p>
+                                <p class="login button"> 
+                                    <input type="submit" value="Login" /> 
+								</p>
+								<input type="hidden" class="lockey" id="lockey" name="lockey" value="*"/>
+								<input type="hidden" class="seskey" id="seskey" name="seskey" value="*"/>
+								<div>
+									<div >
+										<a href="#tozforgot" class="to_register">Forgot Password</a>
+									</div>
+                                <p class="change_link">
+									Not a member yet ?
+									<a href="#toregister" class="to_register">Join us</a>
+								</p>
+								</div>
+                            </form>
+                        </div>
+
+                        <div id="register" class="animate form">
+                            <form  id="r" action="regst" autocomplete="on" onsubmit="return sendit(this);"> 
+                                <h1>Sign Up</h1> 
+                                <p> 
+                                    <label for="rname" class="uname" data-icon="u">Your Name</label>
+                                    <input id="rname" name="rname" required="required" type="text" placeholder="Sun ZhongShan 孙中山" autofocus />
+                               </p>
+                               <p> 
+                                    <label for="rlogin" class="ulogin" data-icon="l">Your Login (all lowercase)</label>
+                                    <input id="rlogin" name="rlogin" required="required" type="text" placeholder="sunzhongshan" onchange="chkusr(this);" pattern="([a-z0-9_\.])"/>
+                                </p>
+                                <p> 
+                                    <label for="remail" class="youmail" data-icon="e" > Your Email</label>
+                                    <input id="remail" name="remail" required="required" type="email" placeholder="szs@gofw.cn" onchange="chkusr(this);"/> 
+                                </p>
+                                <p> 
+                                    <label for="pass1" class="youpasswd" data-icon="p">Your Password </label>
+                                    <input id="pass1" name="pass1" required="required" type="password" placeholder="eg. X8df!90EO"/>
+                                </p>
+                                <p> 
+                                    <label for="pass2" class="youpasswd" data-icon="p">Please confirm your password </label>
+                                    <input id="pass2" name="pass2" required="required" type="password" placeholder="eg. X8df!90EO" onchange="chkpass(this);"/>
+                                </p>
+								<input type="hidden" class="seskey" id="rseskey" name="seskey" value="*"/>
+								<input type="hidden" class="lockey" id="rlockey" name="lockey" value="*"/>
+                               <p class="signin button"> 
+									<input type="submit" value="Sign up"/> 
+								</p>
+                                <p class="change_link">  
+									Already a member ?
+									<a href="#tologin" class="to_register"> Go and log in </a>
+								</p>
+                            </form>
+                        </div>
+						
+						<div id="zforgot" class="animate form">
+                            <form  id="f" action="forgot" autocomplete="on" onsubmit="return sendit(this);"> 
+                                <h1>Enter Info </h1> 
+                                
+                               <p> 
+                                    <label for="flogin" class="ulogin" data-icon="l"> Your Login </label>
+                                    <input id="flogin" name="rlogin" required="required" type="text" placeholder="sunzhongshan" onchange="chkusr(this);" autofocus pattern="([a-z0-9_\.])"/>
+                                </p>
+                                <p> 
+                                    <label for="femail" class="youmail" data-icon="e" > Your Email </label>
+                                    <input id="femail" name="remail" required="required" type="email" placeholder="szs@gofw.cn" onchange="chkusr(this);"/> 
+                                </p>
+                                
+                                <p class="signin button"> 
+									<input type="submit" value="Forgot"/> 
+								</p>
+								<input type="hidden" class="seskey" id="fseskey" name="seskey" value="*"/>
+								<input type="hidden" class="lockey" id="flockey" name="lockey" value="*"/>
+                                <p class="change_link">  
+									Wait for email
+									<a href="#tologin" class="to_register"> Go and log in </a>
+								</p>
+                            </form>
+                        </div>
+                    </div>
+                </div>  
+            </section>
+        </div>
+    </body>
+</html>
