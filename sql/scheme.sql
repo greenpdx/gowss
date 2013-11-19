@@ -252,10 +252,10 @@ SET default_with_oids = false;
 --
 -- TOC entry 162 (class 1259 OID 16390)
 -- Dependencies: 1972 1973 5
--- Name: gofwconf; Type: TABLE; Schema: public; Owner: -
+-- Name: gowsconf; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE gofwconf (
+CREATE TABLE gowsconf (
     cfgidx integer NOT NULL,
     name character varying(64) NOT NULL,
     rndkey numeric DEFAULT random() NOT NULL,
@@ -266,10 +266,10 @@ CREATE TABLE gofwconf (
 --
 -- TOC entry 161 (class 1259 OID 16388)
 -- Dependencies: 162 5
--- Name: hzcconf_cfgidx_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: gowsconf_cfgidx_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE hzcconf_cfgidx_seq
+CREATE SEQUENCE gowsconf_cfgidx_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -280,10 +280,10 @@ CREATE SEQUENCE hzcconf_cfgidx_seq
 --
 -- TOC entry 2010 (class 0 OID 0)
 -- Dependencies: 161
--- Name: hzcconf_cfgidx_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: gowsconf_cfgidx_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE hzcconf_cfgidx_seq OWNED BY gofwconf.cfgidx;
+ALTER SEQUENCE gowsconf_cfgidx_seq OWNED BY gowsconf.cfgidx;
 
 
 --
@@ -458,7 +458,7 @@ ALTER SEQUENCE usrpas_usridx_seq OWNED BY usrpas.usridx;
 -- Name: cfgidx; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY gofwconf ALTER COLUMN cfgidx SET DEFAULT nextval('hzcconf_cfgidx_seq'::regclass);
+ALTER TABLE ONLY gowsconf ALTER COLUMN cfgidx SET DEFAULT nextval('gowsconf_cfgidx_seq'::regclass);
 
 
 --
@@ -491,11 +491,11 @@ ALTER TABLE ONLY usrinfo ALTER COLUMN usridx SET DEFAULT nextval('usrinfo_usridx
 --
 -- TOC entry 1985 (class 2606 OID 16399)
 -- Dependencies: 162 162 2002
--- Name: hzcconf_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: gowsconf_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY gofwconf
-    ADD CONSTRAINT hzcconf_pkey PRIMARY KEY (cfgidx);
+ALTER TABLE ONLY gowsconf
+    ADD CONSTRAINT gowsconf_pkey PRIMARY KEY (cfgidx);
 
 
 --

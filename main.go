@@ -45,7 +45,7 @@ var addr = flag.String("addr", ":8088", "http service address")
 // basic test function
 //  broadcast to everyone.
 func test(conn *gows.Connection, jin map[string]interface{} ) map[string]interface{} {
-	ret := gofw.MsgNew(jin)
+	ret := gows.MsgNew(jin)
 	ret["msg"] = jin["msg"]
 	ret["sub"] = jin["sub"]
     gows.Broadcast(conn,ret)
@@ -65,7 +65,7 @@ func main() {
 	}
  
 	// service path
-	gows.WHandle("/gofw/ws", nil)
+	gows.WHandle("/gows/ws", nil)
 	//register "echo" function
 	gows.Regfunc("echo", test)
 	// different client code

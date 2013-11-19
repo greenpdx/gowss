@@ -31,7 +31,7 @@ function maWeb(url, readyCB) {
 		if ( this._conn == null) {
 			if (window["WebSocket"]) {
 				self.cb2 = msgcb;
-				self._conn = new WebSocket("ws://"+location.host+"/gofw/ws");
+				self._conn = new WebSocket("ws://"+location.host+"/gows/ws");
 				//console.log("new sock")
 				var state = this._conn.readyState;
 				var buflen = this._conn.bufferedAmount;

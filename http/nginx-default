@@ -36,9 +36,9 @@ upstream wssock {
 	server localhost:8088;
 }
 
-upstream gofw {
+upstream gows {
 	server localhost:8088;
-#	server unix:/tmp/gofw.sock;
+#	server unix:/tmp/gows.sock;
 }
 
 #ldap_server test1 {
@@ -51,7 +51,7 @@ upstream gofw {
 #}
 
 #upstream database {
-#	postgres_server 127.0.0.1 dbname=hzc user=hzc password=hzc;
+#	postgres_server 127.0.0.1 dbname=gows user=gows password=gows;
 #}
 
 server {
@@ -119,7 +119,7 @@ server {
 	}
 
 	location /dev {
-		alias /home/savages/hzc-chapter/content/;
+		alias /home/savages/gows-chapter/content/;
 		autoindex on;
 #		auth_ldap "Closed content";
 #		$sent_http_
@@ -149,7 +149,7 @@ server {
 		#postgres_output text;
 		#postgres_set $nextval 0 0 required;
 		#set $args $args&sess=$nextval;
-		proxy_pass http://gofw;
+		proxy_pass http://gows;
 	}
 
 	location /login/regst {
@@ -160,7 +160,7 @@ server {
     		proxy_set_header        X-Real-Port     $remote_port;
      		proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
 		proxy_pass_request_headers on;
-		proxy_pass http://gofw;
+		proxy_pass http://gows;
 	}
 
 	location /login/forgot {
@@ -171,7 +171,7 @@ server {
     		proxy_set_header        X-Real-Port     $remote_port;
      		proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
 		proxy_pass_request_headers on;
-		proxy_pass http://gofw;
+		proxy_pass http://gows;
 	}
 
 
@@ -184,9 +184,9 @@ server {
 
 	}
 
-	location /gofw/ws {
-		if ($http_cookie !~* 'gofw') {
-			rewrite ^/hzc(.*)$ /login$1;
+	location /gows/ws {
+		if ($http_cookie !~* 'gows') {
+			rewrite ^/gows(.*)$ /login$1;
 		}
      		proxy_redirect off;
      		proxy_buffering off;
@@ -198,20 +198,20 @@ server {
     		proxy_set_header Connection "upgrade";
 		proxy_http_version 1.1;
 		proxy_pass_request_headers on;
-		proxy_pass http://gofw;
+		proxy_pass http://gows;
 	}
 
 
-	location /gofw {
-		if ($http_cookie !~* 'gofw') {
-			rewrite ^/gofw(.*)$ /login$1;
+	location /gows {
+		if ($http_cookie !~* 'gows') {
+			rewrite ^/gows(.*)$ /login$1;
 		}
-		alias /var/www/gofw;
+		alias /var/www/gows;
 	}
 
-	location /hzc/ws {
-		if ($http_cookie !~* 'hzc') {
-			rewrite ^/hzc(.*)$ /login$1;
+	location /gows/ws {
+		if ($http_cookie !~* 'gows') {
+			rewrite ^/gows(.*)$ /login$1;
 		}
      		proxy_redirect off;
      		proxy_buffering off;
@@ -223,20 +223,20 @@ server {
     		proxy_set_header Connection "upgrade";
 		proxy_http_version 1.1;
 		proxy_pass_request_headers on;
-		proxy_pass http://gofw;
+		proxy_pass http://gows;
 	}
 
 
-	location /hzc {
-		if ($http_cookie !~* 'hzc') {
-			rewrite ^/hzc(.*)$ /login$1;
+	location /gows {
+		if ($http_cookie !~* 'gows') {
+			rewrite ^/gows(.*)$ /login$1;
 		}
-		alias /var/www/hzc;
+		alias /var/www/gows;
 	}
 
 	location /demo/ws {
 		if ($http_cookie !~* 'demo') {
-			rewrite ^/hzc(.*)$ /login$1;
+			rewrite ^/gows(.*)$ /login$1;
 		}
      		proxy_redirect off;
      		proxy_buffering off;
@@ -248,7 +248,7 @@ server {
     		proxy_set_header Connection "upgrade";
 		proxy_http_version 1.1;
 		proxy_pass_request_headers on;
-		proxy_pass http://gofw;
+		proxy_pass http://gows;
 	}
 
 

@@ -36,7 +36,7 @@ func mod1(conn *gows.Connection, cmd map[string]interface{} ) map[string]interfa
 
 	msg := gows.MsgNew(cmd)
 
-	//db := gofw.GetDB()	
+	//db := gows.GetDB()
 
 
 	conn.Send <- msg

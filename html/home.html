@@ -21,7 +21,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="/gofw/mWeb.js"></script>
+<script type="text/javascript" src="/gows/mWeb.js"></script>
 <script type="text/javascript">
 	var myExec = this;
 	var wsconn = null;
@@ -31,8 +31,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 	}
 
     function loadpg() {
-		wsconn = maNAME.prototype = new maWeb("/gofw/ws", startapp);
-		window.history.replaceState("testing now","HZC","/gofw");
+		wsconn = maNAME.prototype = new maWeb("/gows/ws", startapp);
+		window.history.replaceState("testing now","HZC","/gows");
 	}
 	function maNAME( data, cb) {
 		myExec.wsconn.send(data,cb);
@@ -86,7 +86,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 		savcmd = cmd.val();
 		var jcmd = myExec.wsconn.mkCmd(savcmd);
 		if (savcmd == "store") {
-			jcmd["msg"] = "STORE "+localStorage.getItem("gofw_loc")+", "+sessionStorage.getItem("gofw_ses");
+			jcmd["msg"] = "STORE "+localStorage.getItem("gows_loc")+", "+sessionStorage.getItem("gows_ses");
 		} else {
 			jcmd["msg"] = msg.val();
 		}

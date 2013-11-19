@@ -84,22 +84,22 @@ func InitDB(dbname string, user string, passwd string) *sqlx.DB {
 	fmt.Println("DB Ping good")
 
 	// Get a configuration
-	gofwconf := &GofwConf{}
-	fmt.Println(gofwconf)
+	gowsconf := &GowsConf{}
+	fmt.Println(gowsconf)
 	type idx struct {
 		Max int32
 	}
 	idxmax := idx{}
-	//err = db.Get(&gofwconf,"SELECT * FROM gofwconf WHERE cfgidx = (select max(cfgidx) from gofwconf)")
-	err = db.Get(&idxmax,"SELECT max(cfgidx) FROM gofwconf")
+	//err = db.Get(&gowsconf,"SELECT * FROM gowsconf WHERE cfgidx = (select max(cfgidx) from gowsconf)")
+	err = db.Get(&idxmax,"SELECT max(cfgidx) FROM gowsconf")
 	if err != nil {
 		log.Printf("Error getting config: %s\n", err)
-		fmt.Println(gofwconf)
+		fmt.Println(gowsconf)
 //		db.Close()
 //		return nil
 	} else {
 		fmt.Println(idxmax)
-		fmt.Println(gofwconf.Name, gofwconf.Uuid)
+		fmt.Println(gowsconf.Name, gowsconf.Uuid)
 	}
 	dbsql = db
 	return db

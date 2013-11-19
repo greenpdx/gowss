@@ -1,4 +1,4 @@
-*
+/*
 crypt.go : GOWS crytography program
 Copyright (C) 2013 Shaun Savage <savages@savages.com>
 
@@ -34,7 +34,7 @@ type Cryptcfg struct {
 	digKey		[]byte
 	hashKey		[]byte
 }
-var cryptgofw Cryptcfg
+var cryptgows Cryptcfg
 var crctbl *crc64.Table
 
 func EnCrypt(vals *map[interface{}]interface{}, keys *Cryptcfg ) ([]string, error) {
@@ -42,7 +42,7 @@ func EnCrypt(vals *map[interface{}]interface{}, keys *Cryptcfg ) ([]string, erro
 	scook := securecookie.New(
 		keys.authKey,
 		keys.cryptKey)
-	str,err := scook.Encode("hzc",vals)
+	str,err := scook.Encode("gows",vals)
 	if err != nil {
 		fmt.Println("Bad encode ",err)
 		return nil, err
@@ -76,7 +76,7 @@ func DeCrypt(str []string, keys *Cryptcfg) (*map[interface{}]interface{}, error)
 		keys.authKey,
 		keys.cryptKey)
 	fmt.Println(str[1], vals, reflect.TypeOf(str[1]),reflect.TypeOf(vals))
-	err := scook.Decode("hzc",str[1],&vals)
+	err := scook.Decode("gows",str[1],&vals)
 	if err != nil {
 		fmt.Println("bad cookie crypt",err)
 		return nil, errors.New("Invalid Cookie")		
@@ -86,9 +86,9 @@ func DeCrypt(str []string, keys *Cryptcfg) (*map[interface{}]interface{}, error)
 
 
 func DeCook(str []string) (*map[interface{}]interface{}, error) {
-	return DeCrypt(str, &cryptgofw)
+	return DeCrypt(str, &cryptgows)
 }
 
 func EnCook(vals *map[interface{}]interface{}) ([]string, error) {
-	return EnCrypt(vals, &cryptgofw)
+	return EnCrypt(vals, &cryptgows)
 }

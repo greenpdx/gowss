@@ -1,5 +1,5 @@
-<!--
-gofw.go : GOWS library entry main program
+/*
+gows.go : GOWS library entry main program
 Copyright (C) 2013 Shaun Savage <savages@savages.com>
 
 This program is free software: you can redistribute it and/or modify it under
@@ -13,7 +13,7 @@ A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details
 
 You should have received a copy of the GNU Lesser General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+*/
 package gows
  
 import (
@@ -46,7 +46,7 @@ func Init() *sqlx.DB {
 //	go func() {
 //		log.Println(http.ListenAndServe("localhost:6060", nil))
 //	}()
-	db := db.InitDB("hzc","hzc","hzc")
+	db := db.InitDB("gows","gows","gows")
 	HHandle("/auth", auth.AuthHandler)
 	HHandle("/login/regst", auth.ReqHandler)
 	HHandle("/login/forgot", auth.FgtHandler)

@@ -19,10 +19,10 @@ SET default_with_oids = false;
 --
 -- TOC entry 205 (class 1259 OID 16816)
 -- Dependencies: 2177 2178 6
--- Name: gofwconf; Type: TABLE; Schema: public; Owner: -
+-- Name: gowsconf; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE gofwconf (
+CREATE TABLE gowsconf (
     cfgidx integer NOT NULL,
     name character varying NOT NULL,
     rndkey numeric DEFAULT random() NOT NULL,
@@ -35,10 +35,10 @@ CREATE TABLE gofwconf (
 --
 -- TOC entry 204 (class 1259 OID 16814)
 -- Dependencies: 205 6
--- Name: hzcconf_cfgidx_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: gowsconf_cfgidx_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE hzcconf_cfgidx_seq
+CREATE SEQUENCE gowsconf_cfgidx_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -49,10 +49,10 @@ CREATE SEQUENCE hzcconf_cfgidx_seq
 --
 -- TOC entry 2215 (class 0 OID 0)
 -- Dependencies: 204
--- Name: hzcconf_cfgidx_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: gowsconf_cfgidx_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE hzcconf_cfgidx_seq OWNED BY gofwconf.cfgidx;
+ALTER SEQUENCE gowsconf_cfgidx_seq OWNED BY gowsconf.cfgidx;
 
 
 --
@@ -287,7 +287,7 @@ ALTER SEQUENCE usrtbl_usridx_seq OWNED BY usrtbl.usridx;
 -- Name: cfgidx; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY gofwconf ALTER COLUMN cfgidx SET DEFAULT nextval('hzcconf_cfgidx_seq'::regclass);
+ALTER TABLE ONLY gowsconf ALTER COLUMN cfgidx SET DEFAULT nextval('gowsconf_cfgidx_seq'::regclass);
 
 
 --
@@ -338,11 +338,11 @@ ALTER TABLE ONLY usrtbl ALTER COLUMN usridx SET DEFAULT nextval('usrtbl_usridx_s
 --
 -- TOC entry 2195 (class 2606 OID 16825)
 -- Dependencies: 205 205 2212
--- Name: hzcconf_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: gowsconf_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY gofwconf
-    ADD CONSTRAINT hzcconf_pkey PRIMARY KEY (cfgidx);
+ALTER TABLE ONLY gowsconf
+    ADD CONSTRAINT gowsconf_pkey PRIMARY KEY (cfgidx);
 
 
 --

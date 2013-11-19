@@ -1,4 +1,4 @@
-<!--
+/*
 hub.go : GOWS  program the routing
 Copyright (C) 2013 Shaun Savage <savages@savages.com>
 
@@ -13,7 +13,8 @@ A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details
 
 You should have received a copy of the GNU Lesser General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+*/
+
 package gows
 import	(
     "encoding/json"

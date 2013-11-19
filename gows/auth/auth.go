@@ -1,4 +1,4 @@
-*
+/*
 auth.go : GOWS authencation program
 Copyright (C) 2013 Shaun Savage <savages@savages.com>
 
@@ -64,12 +64,12 @@ type usrsec struct {
 
 func init() {
 	crctbl = crc64.MakeTable(crc64.ECMA)
-	cryptgofw.cryptKey = securecookie.GenerateRandomKey(32)
-	cryptgofw.hashKey = securecookie.GenerateRandomKey(32)
-	cryptgofw.authKey = securecookie.GenerateRandomKey(32)
-	cryptgofw.crcKey = securecookie.GenerateRandomKey(32)
-	redirTempl = template.Must(template.ParseFiles("gofw/redir.html"))
-	regstTempl = template.Must(template.ParseFiles("gofw/regst.html"))
+	cryptgows.cryptKey = securecookie.GenerateRandomKey(32)
+	cryptgows.hashKey = securecookie.GenerateRandomKey(32)
+	cryptgows.authKey = securecookie.GenerateRandomKey(32)
+	cryptgows.crcKey = securecookie.GenerateRandomKey(32)
+	redirTempl = template.Must(template.ParseFiles("gows/redir.html"))
+	regstTempl = template.Must(template.ParseFiles("gows/regst.html"))
 }
 	
 
@@ -220,7 +220,7 @@ func AuthHandler(w http.ResponseWriter, r *http.Request) {
     }
 	if ses.IsNew {
 		//ses.Options.Domain = r.Host
-		ses.Options.Path = "/hzc"
+		ses.Options.Path = "/gows"
 		ses.Options.HttpOnly = false
 		ses.Options.Secure = false // change to true for production
 		ses.Values = vals
@@ -229,7 +229,7 @@ func AuthHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	ses.Options.MaxAge = 60*30 //change to config
 	
-	db := db.GetDB()	//db = gofw.GetDB()		
+	db := db.GetDB()	//db = gows.GetDB()		
 	
 	type sessidx struct {
 		SessIdx uint64
@@ -252,7 +252,7 @@ func AuthHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cook := sessions.NewCookie("hzc",str[1]+":"+str[0], ses.Options)
+	cook := sessions.NewCookie("gows",str[1]+":"+str[0], ses.Options)
 	fmt.Println("COOKIE SEND",cook)	
 	http.SetCookie(w,cook)
 	
@@ -264,7 +264,7 @@ func AuthHandler(w http.ResponseWriter, r *http.Request) {
 	var us usrsec
 	//us.Userkey = "USERKEY"
 	us.Sesskey = str[0]
-	us.NextWin = "/hzc"
+	us.NextWin = "/gows"
 	redirTempl.Execute(w, us)
 	return
 }
